@@ -1,0 +1,30 @@
+Create a Django project
+------------------------
+$ django-admin.py startproject mysite
+
+# Test the project
+$ python manage.py runserver
+
+# Run the python shell with all project settings
+$ python manage.py shell
+
+Create a books db
+-------------------
+# First create the books app
+$ python manage.py startapp books
+
+# Edit the books model to define the tables
+$ vim books/models.py
+
+# Check the database
+$ python manage.py validate
+
+# Check the database command that django will run
+$ python manage.py sqlall books
+
+# Create the database
+$ python manage.py syncdb
+
+# Run the db shell to view/test db
+$ python manage.py dbshell
+
