@@ -1,0 +1,74 @@
+<DOCTYPE html>
+<html>
+<head>
+{% if camera_status.Refresh %}
+<script>
+window.onload = function(){
+ setTimeout(function(){
+     location.reload(false)
+ }, 5000);
+};
+</script>
+{% endif %}
+<title>Camera Control</title>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}screen.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}handheld.css" media="screen and (max-device-width: 800px)" />
+</head>
+<body>
+<p>
+<h1>Camera Control</h1>
+</p>
+
+Name: <b>{{ camera_status.Camera.name }}</b><br>
+Location: <b>{{ camera_status.Camera.location }}</b><br>
+IP Address: <b>{{ camera_status.Camera.ipaddress }}</b><br>
+<br>
+Status: <b>{{ camera_status.PiStatus }}</b><br>
+Mode: <b>{{ camera_status.MotionStatus }}</b><br>
+<br>
+
+{% ifequal camera_status.MotionStatus 'Stopped' %}
+<form action="/camera_start/{{ camera_status.Camera.id }}/" method="POST"> {% csrf_token %}
+    <button type="submit" name="submit" value="submit-value" class="cameracontrol">Start Monitoring</button>
+</form>
+<form action="/video_stream/{{ camera_status.Camera.id }}/" method="POST"> {% csrf_token %}
+    <button type="submit" name="submit" value="submit-value" class="cameracontrol">Start Video Stream</button>
+</form>
+<form action="/video_record/{{ camera_status.Camera.id }}/" method="POST"> {% csrf_token %}
+    <button type="submit" name="submit" value="submit-value" class="cameracontrol">Start Video Recording</button>
+</form>
+{% endifequal %}
+{% ifequal camera_status.MotionStatus 'Monitoring' %}
+<form action="/camera_stop/{{ camera_status.Camera.id }}/" method="POST"> {% csrf_token %}
+    <button type="submit" name="submit" value="submit-value" class="cameracontrol">Stop Monitoring</button>
+</form>
+<form action="/camera_snap/{{ camera_status.Camera.id }}/" method="POST"> {% csrf_token %}
+    <button type="submit" name="submit" value="submit-value" class="cameracontrol">Capture Live Picture</button>
+</form>
+<form action="/camera_thumb/{{ camera_status.Camera.id }}/" method="POST"> {% csrf_token %}
+    <button type="submit" name="submit" value="submit-value" class="cameracontrol">Capture Thumbnail</button>
+</form>
+{% endifequal %}
+{% ifequal camera_status.MotionStatus 'Streaming' %}
+<form action="/camera_stop/{{ camera_status.Camera.id }}/" method="POST"> {% csrf_token %}
+    <button type="submit" name="submit" value="submit-value" class="cameracontrol">Stop Streaming</button>
+</form>
+{% endifequal %}
+{% ifequal camera_status.MotionStatus 'Recording' %}
+<form action="/camera_stop/{{ camera_status.Camera.id }}/" method="POST"> {% csrf_token %}
+    <button type="submit" name="submit" value="submit-value" class="cameracontrol">Stop Recording</button>
+</form>
+{% endifequal %}
+
+<p><a href="/camera/delete/{{ camera_status.Camera.id }}">Delete Camera</a></p>
+{% ifequal camera_status.PiStatus 'Active' %}
+<p><a href="/camera_control/settings/{{ camera_status.Camera.id }}">Configure Camera</a></p>
+{% endifequal %}
+<p><a href="/camera_control/">Camera List</a></p>
+<br>
+<p><a href="/">Home</a></p>
+<p><a href="/gates_control/">Gates Control</a></p>
+<p><a href="/logout/">Logout</a></p>
+
+</body>
+</html>

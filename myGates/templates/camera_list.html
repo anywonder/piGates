@@ -1,0 +1,32 @@
+<DOCTYPE html>
+<html>
+<head>
+<title>Camera List</title>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}screen.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}handheld.css" media="screen and (max-device-width: 800px)" />
+</head>
+<body>
+<p>
+<h1>Camera List</h1>
+</p>
+
+
+{% if cameras %}
+    <p>Found {{ cameras|length }} camera{{ cameras|pluralize }}.</p>
+    <ul>
+        {% for cam in cameras %}
+        <li><a href="/camera/{{ cam.id }}">{{ cam.name }}</a>,  {{ cam.location }}, {{ cam.ipaddress }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No cameras have been detected.</p>
+{% endif %}
+
+<p><a href="/camera/new/">Add Camera</a></p>
+<br>
+<p><a href="/">Home</a></p>
+<p><a href="/gates_control/">Gates Control</a></p>
+<p><a href="/logout/">Logout</a></p>
+
+</body>
+</html>

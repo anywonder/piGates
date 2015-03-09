@@ -1,0 +1,40 @@
+<DOCTYPE html>
+<html>
+<head>
+<script>
+window.onload = function(){
+ setTimeout(function(){
+    alert("Hello");
+ }, 10000);
+};
+</script>
+<title>ZWave Control</title>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}screen.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}handheld.css" media="handheld" />
+</head>
+<body>
+<p>
+<h1>ZWave Control</h1>
+</p>
+
+Name: <b>{{ zwave_status.ZWaveController.name }}</b><br>
+Location: <b>{{ zwave_status.ZWaveController.location }}</b><br>
+IP Address: <b>{{ zwave_status.ZWaveController.ipaddress }}</b><br>
+<br>
+Status: <b>{{ zwave_status.PiStatus }}</b><br>
+<br>
+
+
+<p><a href="/zwave/delete/{{ zwave_status.ZWaveController.id }}">Delete ZWaveController</a></p>
+{% ifequal camera_status.PiStatus 'Active' %}
+<p><a href="/zwave_control/settings/{{ zwave_status.ZWaveController.id }}">Configure ZWaveController</a></p>
+{% endifequal %}
+<p><a href="/zwave_control/">ZWaveController List</a></p>
+<br>
+<p><a href="/">Home</a></p>
+<p><a href="/gates_control/">Gates Control</a></p>
+<p><a href="/camera_control/">Camera Control</a></p>
+<p><a href="/logout/">Logout</a></p>
+
+</body>
+</html>

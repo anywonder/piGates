@@ -1,0 +1,31 @@
+<DOCTYPE html>
+<html>
+<head>
+<title>Add New Camera</title>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}screen.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}handheld.css" media="screen and (max-device-width: 800px)" />
+</head>
+<body>
+<h1>Add New Camera</h1>
+
+{% if form.errors %}
+  <p style="color: red;">
+    Please correct the error{{ form.errors|pluralize }} below
+  </p>
+{% endif %}
+
+<form action="" method="post">
+  <table>
+    {{ form.as_table }}
+  </table>
+  {% csrf_token %}
+  <input type="submit" value="Submit">
+</form>
+
+<p><a href="/">Home</a></p>
+<p><a href="/camera_control/">Camera Control</a></p>
+<p><a href="/gates_control/">Gates Control</a></p>
+<p><a href="/logout/">Logout</a></p>
+
+</body>
+</html>

@@ -1,0 +1,3 @@
+
+motionqueue = []
+statusCamera = []

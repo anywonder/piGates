@@ -1,0 +1,28 @@
+<DOCTYPE html>
+<html>
+<head>
+<title>Home Gate Control</title>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}screen.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}handheld.css" media="screen and (max-device-width: 800px)" />
+</head>
+<body>
+<p>
+<h1>Home Gate Control</h1>
+</p>
+
+<p>Gates are currently <b>{{ gates_status }}</b></p>
+
+<form action="/open_gates/" method="POST"> {% csrf_token %}
+    <button type="submit" name="submit" value="submit-value" class="gatecontrol">Open Gates</button>
+</form>
+<form action="/close_gates/" method="POST"> {% csrf_token %}
+    <button type="submit" name="submit" value="submit-value" class="gatecontrol">Close Gates</button>
+</form>
+
+<p><a href="/">Home</a></p>
+<p><a href="/camera_control/">Camera Control</a></p>
+<p><a href="/logout/">Logout</a></p>
+
+</body>
+</html>
+

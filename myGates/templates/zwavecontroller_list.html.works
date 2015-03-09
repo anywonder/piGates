@@ -1,0 +1,104 @@
+<DOCTYPE html>
+<html>
+<head>
+<title>ZWave</title>
+<!--<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}screen.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}handheld.css" media="handheld" />
+-->
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}screen.css" />
+</head>
+<body>
+<p>
+<h1>ZWave</h1>
+<h2>Controller List</h2>
+</p>
+
+
+{% if zwavecontrollers %}
+    <p>Found {{ zwavecontrollers|length }} ZWave Controller{{ zwavecontrollers|pluralize }}.</p>
+    <ul>
+        {% for zwave in zwavecontrollers %}
+        <li><a href="/zwave/{{ zwave.id }}">{{ zwave.name }}</a>,  {{ zwave.location }}, {{ zwave.ipaddress }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No ZWave Controllers have been detected.</p>
+{% endif %}
+
+<p><a href="/zwave/new/">Add ZWave Controller</a></p>
+
+<h2>Devices</h2>
+
+<table id="t01">
+  <tr>
+    <th>Node Id</th>
+    <th>Device Type</th>     
+    <th>Data</th>
+    <th>Action</th>
+  </tr>
+{% if zwavedevices %}
+   {% for device in zwavedevices %}
+    <tr>
+        {% if device.instance == '0' %}
+        <td>{{ device.nodeId }}</td>
+        {% else %}
+        <td>{{ device.nodeId }}.{{ device.instance }}</td>
+        {% endif %}
+        <td>{{ device.type }}</td>
+        {% if device.type == 'Switch Binary' %}
+           {% if device.value == 1 %}
+           <td>On</td>
+           <td><button type="submit" onClick="window.location.href='/zwave_switch_off/{{ device.controllerName }}/{{ device.nodeId }}/{{ device.instance }}'" name="submit" value="submit-value" class="zwavedevice">Switch Off</button></td>
+           {% else %}
+           <td>Off</td>
+           <td><button type="submit" onClick="window.location.href='/zwave_switch_on/{{ device.controllerName }}/{{ device.nodeId }}/{{ device.instance }}'" name="submit" value="submit-value" class="zwavedevice">Switch On</button></td>
+           {% endif %}
+        {% else %}
+           <td>{{ device.value }}</td>
+           <td></td>
+        {% endif %}
+    </tr>
+   {% endfor %}
+{% endif %}
+</table>
+
+
+<h2>Alarms</h2>
+
+{% if zwavealarms %}
+<table id="t01">
+  <tr>
+    <th>Event Date</th>
+    <th>Controller</th>
+    <th>Node Id</th>     
+    <th>Event</th>
+    <th>Data</th>
+  </tr>
+   {% for alarm in zwavealarms %}
+    <tr>
+        <td>{{ alarm.eventTime|date:"SHORT_DATETIME_FORMAT" }}</td>
+        <td>{{ alarm.controllerName }}</td>
+        <td>{{ alarm.nodeId }}</td>
+        <td>{{ alarm.eventType }}</td>
+        <td>{{ alarm.data }}</td>
+    </tr>
+   {% endfor %}
+</table>
+
+<br>
+<button type="submit" onClick="window.location.href='/zwave_clear_alarms'" name="submit" value="submit-value" class="zwavedevice">Clear Alarms</button>
+<br>
+
+{% else %}
+   <p>No Alarms have been detected.</p>
+{% endif %}
+
+
+<br>
+<p><a href="/">Home</a></p>
+<p><a href="/gates_control/">Gates Control</a></p>
+<p><a href="/camera_control/">Camera Control</a></p>
+<p><a href="/logout/">Logout</a></p>
+
+</body>
+</html>

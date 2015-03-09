@@ -1,0 +1,21 @@
+<DOCTYPE html>
+<html>
+<head>
+<title>Home Control</title>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}screen.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}handheld.css" media="screen and (max-device-width: 800px)" />
+</head>
+<body>
+<p>
+<h1>Home Control</h1>
+</p>
+
+
+<button type="submit" onClick="window.location.href='/gates_control/'" name="submit" value="submit-value" class="gatecontrol">Gates</button>
+<button type="submit" onClick="window.location.href='camera_control/'" name="submit" value="submit-value" class="gatecontrol">Camera</button>
+<button type="submit" onClick="window.location.href='zwave_control/'" name="submit" value="submit-value" class="zwavecontrol">ZWave</button>
+
+<p><a href="/logout/">Logout</a></p>
+
+</body>
+</html>
