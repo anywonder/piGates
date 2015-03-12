@@ -145,6 +145,21 @@ function initDeviceEventHandlers() {
 
       for(var instance in device.instances) {
 
+         if(instance == 0 && Object.keys(device.instances).length > 1) {
+            //console.log("Skip instance: " + instance + " length: " + Object.keys(device.instances).length);
+
+            // Look for Multichannel cc and whether supported or not.  If supported then skip this instance
+            // otherwise this instance contains the data
+            //
+            if('96' in device.instances[instance].commandClasses) {
+               //console.log("Found Multichannel");
+               if(device.instances[instance].commandClasses[96].data.supported.value == true) {
+                  //console.log("Multichannel supported");
+                  continue;
+               }
+            }
+         }
+
          for(var cc in device.instances[instance].commandClasses) {
 
             if(0x25 == cc) {
@@ -168,7 +183,7 @@ function initDeviceEventHandlers() {
                   if(0x5 == sense) {
                      // Flood sensor
                      //
-                     //console.log("Alarm path: " + alarmpath);
+                     console.log("Alarm path: " + alarmpath);
                      ZWaveAlarm[alarmpath] = function(x, y) { 
                         // x is nodeId
                         // y is path
@@ -210,6 +225,8 @@ function initDeviceEventHandlers() {
                   var alarmpath = 'devices.' + nodeId + '.instances.' + instance + '.commandClasses.' + cc + '.data.' + sense;
 
                   if(0x1 == sense) {
+
+                     console.log("Alarm Path: " + alarmpath);
                      // General Purpose sensor
                      //
                      //console.log("Alarm path: " + alarmpath);
